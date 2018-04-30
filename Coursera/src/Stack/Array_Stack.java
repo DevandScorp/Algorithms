@@ -28,7 +28,7 @@ public class Array_Stack {
     /**Т.е рофл в том,что ты увеличиваешь размер массива на два,если это необходимо,пропуская постоянные переопределения*/
     private void resize(int n){
         String[] arr2 = new String[n];
-        for(int i = 0;i<arr.length;++i){
+        for(int i = 0;i<N;++i){
             arr2[i] = arr[i];
         }
         arr = arr2;
