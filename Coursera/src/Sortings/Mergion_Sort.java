@@ -24,7 +24,7 @@ public class Mergion_Sort {
     private static void merge(Comparable[] a,Comparable[] aux,int lo,int mid,int hi) {
         assert isSorted(a,lo,mid);
         /**Проверяет, отсортирован ли маиисв*/
-        assert isSorted(a,lo,hi);
+        assert isSorted(a,mid+1,hi);
 
         for(int k = lo;k<=hi;++k){
             aux[k] =a[k];
@@ -76,12 +76,12 @@ public class Mergion_Sort {
     }
     public static void main(String[] args) throws Exception {
         Date date = new Date();
-        Integer[] integers = new Integer[10000];
-        Integer[] integers_2 = new Integer[10000];
+        Integer[] integers = new Integer[100];
+        Integer[] integers_2 = new Integer[10];
         Random r = new Random();
         int counter = 0;
         Date data = new Date();
-        for(int m = 0;m<10000;++m) {
+        for(int m = 0;m<10;++m) {
             for (int i = 0; i < integers.length; ++i) {
                 integers[i] = r.nextInt(100);
             }
