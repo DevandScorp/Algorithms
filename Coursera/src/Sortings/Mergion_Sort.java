@@ -31,11 +31,14 @@ public class Mergion_Sort {
 
         }
         int i = lo,j = mid+1;
+        /**сначала переносишь в aux все a*/
+        /**переносишь в a все значения aux по алгоритму*/
+        /**ТЫ ЖЕ ЗАНОСИШЬ В A ПО ИНДЕКСАММ K*/
         for(int k = lo;k<=hi;++k){
-            if      (i>mid)a[k] = aux[j++];
-            else if (j>hi)a[k] = aux[i++];
-            else if (less(aux[j],aux[i]))a[k] = aux[j++];
-            else     a[k] = aux[i++];
+            if(i>mid)a[k] = aux[j++];
+            else if(j>hi)a[k] = aux[i++];
+            else if(less(aux[i],aux[j]))a[k] = aux[i++];/**Если i-ый меньше,то идем по i,пока оно будет меньше,если нет,то по j*/
+            else a[k] = aux[j++];
         }
         assert isSorted(a,lo,hi);
     }
