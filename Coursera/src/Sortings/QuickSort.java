@@ -20,6 +20,13 @@ public class QuickSort{
     }
     private static int partition(Comparable[] a,int lo,int hi){
         int i = lo,j = hi+1;
+        /**
+        Прошу отметить,что во-первых,ты идешь не с самого низа, а с индекса low+1
+        Во-вторых,элементы с j должны быть больше,а не меньше-это тоже важно
+        Также j должны идти начиная с high+1,т.к. только тогда первым будет элемент high
+        Т.е. если ты поставишь постинкремент,то в цикле все будет норм,но при обмене оно уже не будет учитывать high
+        поэтому нужно задавать high+1 и делать преинкремент
+        */
         while(true){
             while(less(a[++i],a[lo])){
                 if(i==hi) break;/** find elements on the left*/
@@ -36,6 +43,9 @@ public class QuickSort{
     private static void sort(Comparable[] a,int lo,int hi){
         if(hi<=lo) return;
         int j = partition(a,lo,hi);
+        /**
+        Тут у тебя j есть середина,поэтому ты начинаешь с j-1 и j+1 соответственно
+        */
         sort(a,lo,j-1);
         sort(a,j+1,hi);
     }
