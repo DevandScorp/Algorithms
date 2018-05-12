@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.Random;
 
 public class Mergion_Sort {
+    /**
+    merge является inplace-ом,т.е. он требует дополнительного выделения памяти
+    */
     private static boolean less(Comparable a, Comparable b) {
         return a.compareTo(b) <=0;
     }
