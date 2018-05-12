@@ -4,6 +4,12 @@ import java.util.Date;
 import java.util.Random;
 
 public class QuickSort{
+    /**The Java API for \verb#Arrays.sort()
+    #Arrays.sort() for reference types requires that it is stable and guarantees n \log nnlogn performance.
+    Neither of these are properties of standard quicksort.
+    Quicksort uses less memory and is faster in practice on typical inputs (and is typically used by \verb#Arrays.sort()
+    #Arrays.sort() when sorting primitive types, where stability is not relevant).
+    */
     private static boolean less(Comparable a, Comparable b) {
         return a.compareTo(b) <=0;
     }
