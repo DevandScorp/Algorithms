@@ -49,7 +49,7 @@ public class UnorderedMaxPQ<Key extends Comparable<Key>> {
      * swim-для добавления
      */
     private void swim(int k){
-        while(k>1 && less(k/2,k)){
+        while(k>1 && less(pq[k/2],pq[k])){
             swap(pq,k,k/2);
             k/=2;
         }
@@ -62,8 +62,8 @@ public class UnorderedMaxPQ<Key extends Comparable<Key>> {
     private void sink(int k){
         while(2*k<=N){
             int j = 2*k;/**Переходим к детям*/
-            if(j<N && less(j,j+1))j++;/**Находим правого сына*/
-            if(!less(k,j))break;/**Если он больше-ломаем программу*/
+            if(j<N && less(pq[j],pq[j+1]))j++;/**Находим правого сына*/
+            if(!less(pq[k],pq[j]))break;/**Если он больше-ломаем программу*/
             swap(pq,k,j);/**или свапаем,если все нормально*/
             k = j;/**Идем дальше*/
         }
