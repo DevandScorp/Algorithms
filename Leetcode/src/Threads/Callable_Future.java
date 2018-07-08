@@ -23,6 +23,21 @@ public class Callable_Future {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
         //тут вместо execute submit
+        //submit возвращает Future с результатом,а execute просто добавляет задачу
+        /**
+         * submit(Callable<T> task)
+         *
+         * Отправляет задачу возврата значения для выполнения и возвращает будущее
+         * представляя ожидающие результаты задачи.
+         *
+         * Future<?> submit(Runnable task)
+         *
+         * Отправляет Runnable задачу для выполнения и возвращает будущее, представляющее, что     Задача.
+         *
+         * void execute(Runnable command)
+         * Выполняет заданную команду в будущем. Команда может выполняться в новом потоке,
+         * в объединенном потоке или в вызывающем потоке, по усмотрению реализации Executor.
+         */
         ArrayList<Future<String>> result = new ArrayList<>();
         for(int i = 0;i<5;++i){
             result.add(executorService.submit(new String_Return(i)));
