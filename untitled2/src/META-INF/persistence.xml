@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="NewPersistenceUnit">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <!--Позволяет нам автоматом включать все Entity классы из пакета(если false)-->
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name = "javax.persistence.schema-generation.database.action" value = "drop-and-create"></property>
+
+            <!--!!!!!!!!!!-->
+            <property name = "javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"></property>
+            <property name = "javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Test?serverTimezone=UTC"></property>
+            <property name = "javax.persistence.jdbc.user" value="root"></property>
+            <property name = "javax.persistence.jdbc.password" value="Bb14337107916408"></property>
+
+
+        </properties>
+    </persistence-unit>
+</persistence>
