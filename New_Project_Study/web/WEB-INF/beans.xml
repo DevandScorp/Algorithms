@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+                      http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+        bean-discovery-mode="all">
+    <alternatives>
+        <!--теперь по умолчанию всегда будет использовать студента-->
+        <class>Tomcat_EE.Student</class>
+    </alternatives>
+    <interceptors>
+        <class>Tomcat_EE.Intercepter</class>
+    </interceptors>
+    <decorators>
+        <class>Tomcat_EE.MyDecorator</class>
+    </decorators>
+</beans>
