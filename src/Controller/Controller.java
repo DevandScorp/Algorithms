@@ -60,6 +60,12 @@ public class Controller extends HttpServlet {
         if(existence==User.Existence.DO_NOT_EXIST){
             downloadImage(req);
             SqlEditor.write(user);
+            try {
+                SqlEditor.createMusicTable(user);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
             req.setAttribute("warning",existence);
             requestDispatcher = req.getRequestDispatcher("View/User_Page/main/user.jsp");
             requestDispatcher.forward(req,resp);//передаем управление MyView

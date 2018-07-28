@@ -28,15 +28,15 @@ public class SqlEditor {
         }
 
     }
-//    public static void createMusicTable(User user) throws ClassNotFoundException {
-//        Class.forName("com.mysql.cj.jdbc.Driver");
-//        try(Connection connection = DriverManager.getConnection(User.getCONNECTION(),User.getUSERNAME(),User.getPASSWORD());
-//            Statement statement = connection.createStatement()){
-//            statement.executeUpdate("create TABLE if not exists "+"_"+user.getNickname().replace(".","_")+ "(id MEDIUMINT not null auto_increment,full_name char(255)NOT NULL ,title char(255),filepath char(255),primary key (id))");
-//        }
-//        catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public static void createMusicTable(User user) throws ClassNotFoundException {
+       Class.forName("com.mysql.cj.jdbc.Driver");
+        try(Connection connection = DriverManager.getConnection(User.getCONNECTION(),User.getUSERNAME(),User.getPASSWORD());
+           Statement statement = connection.createStatement()){
+          statement.executeUpdate("create TABLE if not exists "+"user_" + Integer.toString(user.getId())+ "(id MEDIUMINT not null auto_increment,full_name char(255)NOT NULL ,title char(255),artist char(255),primary key (id))");
+      }
+       catch (SQLException e) {
+           e.printStackTrace();
+       }
+    }
 
 }

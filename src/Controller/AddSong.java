@@ -23,6 +23,10 @@ import javax.servlet.http.Part;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Enumeration;
 
 @WebServlet("/add_song")
@@ -32,7 +36,14 @@ public class AddSong extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);
     }
-
+    private static String process_String(String str){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0;i<str.length();++i){
+            if(str.charAt(i)=='\'')stringBuilder.append("\'");
+            stringBuilder.append(str.charAt(i));
+        }
+        return stringBuilder.toString();
+    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Part filePart = req.getPart("file");
@@ -58,10 +69,19 @@ public class AddSong extends HttpServlet {
             // Retrieve the necessary info from metadata
             // Names - title, xmpDM:artist etc. - mentioned below may differ based
             String title = metadata.get("title");
-            String artists = metadata.get("xmpDM:artist");
+            String artists = process_String(metadata.get("xmpDM:artist"));
             System.out.println(title + " " + artists);
+            try(Connection connection = DriverManager.getConnection(User.getCONNECTION(),User.getUSERNAME(),User.getPASSWORD());
+                Statement statement = connection.createStatement())
+            {
+                String full_name = process_String(filePart.getSubmittedFileName());
+                String insertion = "insert into user_" + req.getParameter ("get_id") + " (process_String(full_name,title,artist) values "+ "('" + full_name.substring(0,full_name.indexOf(".")) + "\'," +
+                        "\'" + title + "\'"+ ",\'" + artists + "')";
+                statement.executeUpdate(insertion);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("View/User_Page/main/user.jsp");
-            ;
             requestDispatcher.forward(req, resp);//передаем управление MyView
 
         } catch (TikaException e) {

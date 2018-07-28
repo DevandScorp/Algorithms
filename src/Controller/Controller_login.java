@@ -50,6 +50,7 @@ public class Controller_login extends HttpServlet {
                     user_bean.setPassword(password);
                     user_bean.setFilepath(result.getString("filepath"));
                     user_bean.setNickname(result.getString("nickname"));
+                    user_bean.setId(Integer.parseInt(result.getString("id")));
 //                    user_bean.setJSTags();
 //                    user_bean.setPlayerTags();
 //                    System.out.println(user_bean.getJSTags());

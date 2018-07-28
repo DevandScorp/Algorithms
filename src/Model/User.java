@@ -17,13 +17,14 @@ import java.util.Objects;
 
 @Entity(name = "Users")
 public class User implements Serializable {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     int id;
     @Id
-        @NotNull
+    @NotNull
     private String nickname;
     @Id
-        @NotNull
+    @NotNull
     private String email;
     @NotNull
     private String password;
@@ -69,7 +70,7 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, nickname, email, password, filepath, USERNAME, PASSWORD, CONNECTION);
+        return Objects.hash(nickname, email, password);
     }
 
     public static String getUSERNAME() {
@@ -85,13 +86,12 @@ public class User implements Serializable {
     }
 
 
-
-
-    public  enum Existence{
+    public enum Existence {
         NICKNAME,
         EMAIL,
         DO_NOT_EXIST
     }
+
     @Transient
     private static final String USERNAME = "root";
     @Transient
@@ -143,25 +143,25 @@ public class User implements Serializable {
     public User() {
     }
 
-    public  Existence exists() throws ClassNotFoundException {
+    public Existence exists() throws ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        String email_ = "\'"+email+"\'";
-        String nickname_ = "\'"+nickname+"\'";
-        try(Connection connection = DriverManager.getConnection(CONNECTION,USERNAME,PASSWORD);
-            Statement statement = connection.createStatement()){
-            ResultSet result = statement.executeQuery("select * from users where nickname = "+nickname_);
-            if(result.next()){
+        String email_ = "\'" + email + "\'";
+        String nickname_ = "\'" + nickname + "\'";
+        try (Connection connection = DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
+             Statement statement = connection.createStatement()) {
+            ResultSet result = statement.executeQuery("select * from users where nickname = " + nickname_);
+            if (result.next()) {
                 return Existence.NICKNAME;
             }
 
-            ResultSet result1 = statement.executeQuery("select * from users where email = "+ email_);
-            if(result1.next()){
+            ResultSet result1 = statement.executeQuery("select * from users where email = " + email_);
+            if (result1.next()) {
                 return Existence.EMAIL;
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return Existence.DO_NOT_EXIST;
     }
 }
+

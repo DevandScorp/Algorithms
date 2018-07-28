@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.*;
 
 import Controller.Music_Tag_Handler;
 import org.apache.tika.exception.TikaException;
@@ -28,6 +29,15 @@ public class User_Bean implements Serializable {
     User user;
     private String JSTags;
     private String PlayerTags;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getJSTags() {
         return this.JSTags;
@@ -75,6 +85,140 @@ public class User_Bean implements Serializable {
 
     public void setFilepath(String filename) {
         user.setFilepath(filename);
+    }
+    public String getJS() throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        StringBuilder stringBuilder = new StringBuilder("");
+        try (Connection connection = DriverManager.getConnection(User.getCONNECTION(), User.getUSERNAME(), User.getPASSWORD());
+             Statement statement = connection.createStatement()) {
+            String stat = "select * from user_" + getId();
+            ResultSet result = statement.executeQuery(stat);
+            while (result.next()) {
+                String title = result.getString("title");
+                String artist = result.getString("artist");
+                String filename = result.getString("full_name");
+                if (title.length() != 0 && artist.length() != 0) {
+                    stringBuilder.append("{\n" +
+                            "                \"name\": \"" + title + "\",\n" +
+                            "                \"artist\": \"" + artist + "\",\n" +
+                            "" +
+                            "                \"url\": \"http://localhost:8080/" + "Users/" +  getNickname() + "/"+ filename + ".mp3" + "\",\n" +
+                            "                \"cover_art_url\": \"../album-art/we-are-but-hunks-of-wood.jpg\"\n" +
+                            "            },\n");
+                } else {
+                    stringBuilder.append("{\n" +
+                            "                \"name\": \"" + filename + "\",\n" +
+                            "                \"artist\": \"" + artist + "\",\n" +
+                            "                \"url\": \"http://localhost:8080/" + "Users/" +  getNickname() + "/"+ filename + ".mp3" + "\",\n" +
+                            "                \"cover_art_url\": \"../album-art/we-are-but-hunks-of-wood.jpg\"\n" +
+                            "            },\n");
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
+        public  String getPlayer() throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        StringBuilder stringBuilder = new StringBuilder("");
+        try (Connection connection = DriverManager.getConnection(User.getCONNECTION(), User.getUSERNAME(), User.getPASSWORD());
+             Statement statement = connection.createStatement()) {
+            String stat = "select * from user_" + getId();
+            ResultSet result = statement.executeQuery(stat);
+            int i = 0;
+            while (result.next()) {
+                String title = result.getString("title");
+                String artist = result.getString("artist");
+//                System.out.println(title);
+//                System.out.println(artist);
+
+                if (title.length()!= 0 && artist.length()!= 0) {
+                    stringBuilder.append("<div class=\"player\">\n" +
+                            "            <img src=\"http://localhost:8080/View/User_Page/album-art/we-are-but-hunks-of-wood.jpg\" class=\"album-art\"/>\n" +
+                            "            <div class=\"meta-container\">\n" +
+                            "                <div class=\"song-title\">" + title + "</div>\n" +
+                            "                <div class=\"song-artist\">" + artist + "</div>\n" +
+                            "\n" +
+                            "                <div class=\"time-container\">\n" +
+                            "                    <div class=\"current-time\">\n" +
+                            "                        <span class=\"amplitude-current-minutes\" amplitude-song-index=\"" + i + "\"></span>:<span class=\"amplitude-current-seconds\" amplitude-song-index=\"" + i + "\"></span>\n" +
+                            "                    </div>\n" +
+                            "\n" +
+                            "                    <div class=\"duration\">\n" +
+                            "                        <span class=\"amplitude-duration-minutes\" amplitude-song-index=\"" + i + "\">3</span>:<span class=\"amplitude-duration-seconds\" amplitude-song-index=\"" + i + "\">30</span>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <progress class=\"amplitude-song-played-progress\" amplitude-song-index=\"" + i + "\" id=\"song-played-progress-" + (i+1) + "\"></progress>\n" +
+                            "                <div class=\"control-container\">\n" +
+                            "                    <div class=\"amplitude-prev\">\n" +
+                            "\n" +
+                            "                    </div>\n" +
+                            "                    <div class=\"amplitude-play-pause\" amplitude-song-index=\"" + i + "\">\n" +
+                            "\n" +
+                            "                    </div>\n" +
+                            "                    <div class=\"amplitude-next\">\n" +
+                            "\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "            </div>\n" +
+                            "        </div>");
+                } else {
+                    stringBuilder.append("<div class=\"player\">\n" +
+                            "            <img src=\"http://localhost:8080/View/User_Page/album-art/we-are-but-hunks-of-wood.jpg\" class=\"album-art\"/>\n" +
+                            "            <div class=\"meta-container\">\n" +
+                            "                <div class=\"song-title\">" + result.getString("full_name") + "</div>\n" +
+                            "                <div class=\"song-artist\">" + artist + "</div>\n" +
+                            "\n" +
+                            "                <div class=\"time-container\">\n" +
+                            "                    <div class=\"current-time\">\n" +
+                            "                        <span class=\"amplitude-current-minutes\" amplitude-song-index=\"" + i + "\"></span>:<span class=\"amplitude-current-seconds\" amplitude-song-index=\"" + i + "\"></span>\n" +
+                            "                    </div>\n" +
+                            "\n" +
+                            "                    <div class=\"duration\">\n" +
+                            "                        <span class=\"amplitude-duration-minutes\" amplitude-song-index=\"" + i + "\">3</span>:<span class=\"amplitude-duration-seconds\" amplitude-song-index=\"" + i + "\">30</span>\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "                <progress class=\"amplitude-song-played-progress\" amplitude-song-index=\"" + i + "\" id=\"song-played-progress-" + (i+1) + "\"></progress>\n" +
+                            "                <div class=\"control-container\">\n" +
+                            "                    <div class=\"amplitude-prev\">\n" +
+                            "\n" +
+                            "                    </div>\n" +
+                            "                    <div class=\"amplitude-play-pause\" amplitude-song-index=\"" + i + "\">\n" +
+                            "\n" +
+                            "                    </div>\n" +
+                            "                    <div class=\"amplitude-next\">\n" +
+                            "\n" +
+                            "                    </div>\n" +
+                            "                </div>\n" +
+                            "            </div>\n" +
+                            "        </div>");
+
+                }
+                stringBuilder.append(" <script type = \"text/javascript\">\n" +
+                        "        \t\n" +
+                        "\t\t\tdocument.getElementById('song-played-progress-" + (i+1) + "').addEventListener('click', function( e ){\n" +
+                        "\t\t\t  if( Amplitude.getActiveIndex() == "+i+" ){\n" +
+                        "\t\t\t    var offset = this.getBoundingClientRect();\n" +
+                        "\t\t\t    var x = e.pageX - offset.left;\n" +
+                        "\n" +
+                        "\t\t\t    Amplitude.setSongPlayedPercentage( ( parseFloat( x ) / parseFloat( this.offsetWidth) ) * 100 );\n" +
+                        "\t\t\t  }\n" +
+                        "\t\t\t});\n" +
+                        "        </script>");
+                ++i;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
+    @Override
+    public int hashCode() {
+        return user.hashCode();
     }
 
     @Override
