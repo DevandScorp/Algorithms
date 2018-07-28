@@ -69,14 +69,14 @@ public class AddSong extends HttpServlet {
             // Retrieve the necessary info from metadata
             // Names - title, xmpDM:artist etc. - mentioned below may differ based
             String title = metadata.get("title");
-            String artists = process_String(metadata.get("xmpDM:artist"));
+            String artists = metadata.get("xmpDM:artist");
             System.out.println(title + " " + artists);
             try(Connection connection = DriverManager.getConnection(User.getCONNECTION(),User.getUSERNAME(),User.getPASSWORD());
                 Statement statement = connection.createStatement())
             {
                 String full_name = process_String(filePart.getSubmittedFileName());
-                String insertion = "insert into user_" + req.getParameter ("get_id") + " (process_String(full_name,title,artist) values "+ "('" + full_name.substring(0,full_name.indexOf(".")) + "\'," +
-                        "\'" + title + "\'"+ ",\'" + artists + "')";
+                String insertion = "insert into user_" + req.getParameter ("get_id") + " (full_name,title,artist) values "+ "('" + full_name.substring(0,full_name.indexOf(".mp3")) + "\'," +
+                        "\'" + process_String(title) + "\'"+ ",\'" + process_String(artists) + "')";
                 statement.executeUpdate(insertion);
             } catch (SQLException e) {
                 e.printStackTrace();

@@ -44,26 +44,21 @@ public class Controller_login extends HttpServlet {
                  Statement statement = connection.createStatement()) {
                 ResultSet result = statement.executeQuery("select * from users where email = " + email_);
                 result.next();
-
                 if (result.getString("password").equals(password)) {
-                    user_bean.setEmail(email);
-                    user_bean.setPassword(password);
-                    user_bean.setFilepath(result.getString("filepath"));
-                    user_bean.setNickname(result.getString("nickname"));
-                    user_bean.setId(Integer.parseInt(result.getString("id")));
-//                    user_bean.setJSTags();
-//                    user_bean.setPlayerTags();
-//                    System.out.println(user_bean.getJSTags());
-//                    System.out.println("________________________________________________________");
-//                    System.out.println(user_bean.getPlayerTags());
-                    System.out.println(user_bean);
-//                    req.setAttribute("pattern_player",getPlayersTag(user_bean.getNickname()));
-//                    req.setAttribute("pattern_js",getJSTag(user_bean.getNickname()));
-                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("View/User_Page/main/user.jsp");
-                    requestDispatcher.forward(req, resp);
-                }
+                        user_bean.setEmail(email);
+                        user_bean.setPassword(password);
+                        user_bean.setFilepath(result.getString("filepath"));
+                        user_bean.setNickname(result.getString("nickname"));
+                        user_bean.setId(Integer.parseInt(result.getString("id")));
+                        System.out.println(user_bean);
+                        RequestDispatcher requestDispatcher = req.getRequestDispatcher("View/User_Page/main/user.jsp");
+                        requestDispatcher.forward(req, resp);
+                    }
+
             } catch (SQLException e) {
-                e.printStackTrace();
+            req.setAttribute("warning","Wrong email or password");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("View/index.jsp");
+            requestDispatcher.forward(req, resp);
             }
         }catch (ClassNotFoundException e) {
             e.printStackTrace();

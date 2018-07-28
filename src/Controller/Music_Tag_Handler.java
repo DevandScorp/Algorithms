@@ -132,7 +132,7 @@ public class Music_Tag_Handler {
                 }
                 else{
                     stringBuilder.append("{\n" +
-                            "                \"name\": \"" + file1.getName().substring(0,file.getName().indexOf(".")) + "\",\n" +
+                            "                \"name\": \"" + file1.getName().substring(0,file.getName().indexOf(".mp3")) + "\",\n" +
                             "                \"artist\": \"" + artists + "\",\n" +
                             "                // \"album\": \"" + album + "\",\n" +
                             "                \"url\": \"http://localhost:8080/" + nickname +"\",\n" +
