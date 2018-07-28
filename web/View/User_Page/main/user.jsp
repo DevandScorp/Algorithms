@@ -60,6 +60,7 @@
         <form method = "POST" action = "add_song" enctype="multipart/form-data">
             <hr class="sep"/>
             <textarea name="filepath" style = "display: none">${user.getNickname()}</textarea>
+            <textarea name="get_id" style = "display: none">${user.getId()}</textarea>
             <div class="group">
                 <span class="highlight"></span><span class="bar"></span>
                 <input type="file" name="file" id="dropbox" class="inputfile" accept=".mp3" />
@@ -76,11 +77,7 @@
 </div>
 <div class="grid-x grid-padding-x">
     <div class="large-12 medium-12 small-12 cell">
-            <%--<%=request.getAttribute("pattern_player")%>--%>
-            <%--<% File file= new File("http://localhost:8080/" + "..\\..\\..\\Users\\Max");--%>
-            <%--File[] files = file.listFiles();--%>
-            <%--for--%>
-            <%--%>--%>
+            ${user.getPlayer()}
     </div>
 </div>
 <div id="preload">
@@ -93,7 +90,7 @@
 <script type="text/javascript">
     Amplitude.init({
         "songs": [
-            <%--<%=request.getAttribute("pattern_js")%>--%>
+            ${user.getJS()}
         ]
     });
 </script>
@@ -102,6 +99,6 @@
 
   NOTE: These are for handling things outside of the scope of AmplitudeJS
 -->
-<script type="text/javascript" src="js/functions.js"></script>
+<script type="text/javascript" src="http://localhost:8080/View/User_Page/main/js/functions.js"></script>
 </body>
 </html>

@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Login/SignUp</title>
-    <base href="http://localhost:8080/" target="_blank">
+    <base href="http://localhost:8080/">
     <%--<meta name="viewport" content="width=device-width, initial-scale=1">--%>
     <link rel="stylesheet" href="View/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
@@ -24,8 +24,10 @@
 
 <div class="wrapper">
     <form method = "POST" action = "login">
+
         <hr class="sep"/>
         <div class="text-center"><p class="text-primary">Please,log in</p></div>
+        <div class="text-center"><h2><p class="text-danger"><%=request.getAttribute("warning")==null?"":request.getAttribute("warning")%></p></h2></div>
         <div class="group">
             <input type="text" required="required" name = "email"/><span class="highlight"></span><span class="bar"></span>
             <label>Email</label>

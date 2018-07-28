@@ -26,21 +26,31 @@
     dropbox.addEventListener("dragover", dragover, false);
     dropbox.addEventListener("drop", drop, false);
 </script>
+<script type = "text/javascript">
+    function validate(form_id,email) {
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        var address = document.forms[form_id].elements[email].value;
+        if(reg.test(address) == false) {
+            alert('Введите корректный e-mail');
+            return false;
+        }
+    }
+</script>
 <div class="container">
     <div class="text-center" id = "image"><img src="View/images/logo_dark_1.png" class = "img-responsive" alt=""></div>
 </div>
 
 <div class="wrapper">
-    <form method = "POST" action = "controller" enctype="multipart/form-data">
+    <form method = "POST" action = "controller" enctype="multipart/form-data" id="form_id" onsubmit="javascript:return validate('form_id','email');">
        <div class="text-center"><h2><p class="text-danger"><%=request.getAttribute("warning")==null?"":request.getAttribute("warning")%></p></h2></div>
         <hr class="sep"/>
         <div class="text-center"><p class="text-primary">Please,sign up</p></div>
         <div class="group">
             <input type="text" required="required" name = "nickname"/><span class="highlight"></span><span class="bar"></span>
-            <label>Nickname(use lower case,please)</label>
+            <label>Nickname</label>
         </div>
         <div class="group">
-            <input type="text" required="required" name = "email"/><span class="highlight"></span><span class="bar"></span>
+            <input type="text" required="required" name = "email" id = "email"/><span class="highlight"></span><span class="bar"></span>
             <label>Email</label>
         </div>
         <div class="group">
